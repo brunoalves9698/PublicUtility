@@ -1,24 +1,19 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
 using PublicUtility.Domain.Commands.Core;
-using PublicUtility.Domain.Enums;
 
 namespace PublicUtility.Domain.Commands.Inputs
 {
-    public class UpdateEndpointCommand : Notifiable, ICommand
+    public class DeleteEndpointCommand : Notifiable, ICommand
     {
-        public UpdateEndpointCommand() { }
+        public DeleteEndpointCommand() { }
 
-        public UpdateEndpointCommand(
-            string serialNumber,
-            EEndpointState switchState)
+        public DeleteEndpointCommand(string serialNumber)
         {
             SerialNumber = serialNumber;
-            SwitchState = switchState;
         }
 
         public string SerialNumber { get; set; }
-        public EEndpointState SwitchState { get; set; }
 
         public void Validate()
         {

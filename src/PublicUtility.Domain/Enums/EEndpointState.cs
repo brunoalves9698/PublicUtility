@@ -4,7 +4,7 @@ namespace PublicUtility.Domain.Enums
 {
     public enum EEndpointState
     {
-        [Description("Disconectado")]
+        [Description("Desconectado")]
         Disconnected = 0,
 
         [Description("Conectado")]

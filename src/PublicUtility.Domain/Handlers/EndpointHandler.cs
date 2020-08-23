@@ -10,10 +10,11 @@ namespace PublicUtility.Domain.Handlers
     public class EndpointHandler :
         Notifiable,
         IHandler<RegisterEndpointCommand>,
-        IHandler<UpdateEndpointCommand>
+        IHandler<UpdateEndpointCommand>,
+        IHandler<DeleteEndpointCommand>
     {
         private readonly IEndpointRepository _repository;
-        
+
 
         public EndpointHandler(IEndpointRepository repository)
         {
@@ -27,16 +28,19 @@ namespace PublicUtility.Domain.Handlers
             if (command.Invalid)
                 return new GenericCommandResult(false, "Dados inválidos. Verifique o preenchimento dos campos e tente novamente.", command.Notifications);
 
-            // Verfica se Seria Number já está cadastrado
-            if (_repository.SeriaNumberExists(command.SerialNumber))
+            // Verfica se Serial Number já está cadastrado
+            if (_repository.SerialNumberExists(command.SerialNumber))
+            {
                 AddNotification("SerialNumber", "Este \"Número Serial\" já está em uso.");
+                return new GenericCommandResult(false, "Este \"Número Serial\" já está em uso.", command.Notifications);
+            }
 
             // Gera a Entidade
             var endpoint = new Endpoint(
-                command.SerialNumber, 
-                command.MeterModelId, 
-                command.MeterNumber, 
-                command.MeterFirmwareVersion, 
+                command.SerialNumber,
+                command.MeterModelId,
+                command.MeterNumber,
+                command.MeterFirmwareVersion,
                 command.SwitchState);
 
             // Checa as Notificações
@@ -44,7 +48,7 @@ namespace PublicUtility.Domain.Handlers
                 return new GenericCommandResult(false, "Dados inválidos. Verifique o preenchimento dos campos e tente novamente.", Notifications);
 
             // Salva as Informações
-                _repository.Save(endpoint);
+            _repository.Save(endpoint);
 
             // Retorna as Informações
             return new GenericCommandResult(true, "Cadastro realizado com sucesso.", endpoint);
@@ -75,6 +79,23 @@ namespace PublicUtility.Domain.Handlers
 
             // Retorna as Informações
             return new GenericCommandResult(true, "Atualização realizada com sucesso.", endpoint);
+        }
+
+        public ICommandResult Handle(DeleteEndpointCommand command)
+        {
+            command.Validate();
+            if (command.Invalid)
+                return new GenericCommandResult(false, "Dados inválidos. Verifique o preenchimento dos campos e tente novamente.", command.Notifications);
+
+            var endpoint = _repository.GetBySerialNumber(command.SerialNumber);
+
+            if (endpoint == null)
+                return new GenericCommandResult(false, "Nenhum Endpoint encontrado com esse Número Serial.", null);
+
+            if (_repository.Delete(command.SerialNumber))
+                return new GenericCommandResult(true, "Registro excluído com sucesso.", endpoint);
+            else
+                return new GenericCommandResult(false, "Erro ao excluir registro.", endpoint);
         }
     }
 }

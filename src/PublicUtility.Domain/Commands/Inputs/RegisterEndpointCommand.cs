@@ -25,7 +25,7 @@ namespace PublicUtility.Domain.Commands.Inputs
 
         public string SerialNumber { get; set; }
         public int MeterModelId { get; set; }
-        public int MeterNumber { get; private set; }
+        public int MeterNumber { get; set; }
         public string MeterFirmwareVersion { get; set; }
         public EEndpointState SwitchState { get; set; }
 
@@ -33,7 +33,8 @@ namespace PublicUtility.Domain.Commands.Inputs
         {
             AddNotifications(new Contract()
                 .Requires()
-                .IsGreaterThan(MeterModelId, 19, "MeterModelId", "O campo \"ID do Modelo do Medidor\" deve ter o valor entre 16 e 19."));
+                .IsNotNullOrWhiteSpace(SerialNumber, "SerialNumber", "O campo \"Número de Série\" é obrigatório.")
+                .HasMaxLen(MeterFirmwareVersion, 20, "MeterFirmwareVersion", "O campo \"Versão do Firmware\" deve conter no máximo 100 caracteres."));
         }
     }
 }

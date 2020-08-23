@@ -7,9 +7,9 @@ namespace PublicUtility.Domain.Repositories
     {
         void Save(Endpoint endpoint);
         void Update(Endpoint endpoint);
-        void Delete(string serialNumber);
-        Endpoint GetBySerialNumber(string id);
+        bool Delete(string serialNumber);
+        Endpoint GetBySerialNumber(string serialNumber);
         IEnumerable<Endpoint> GetAll();
-        bool SeriaNumberExists(string serialNumber);
+        bool SerialNumberExists(string serialNumber);
     }
 }
