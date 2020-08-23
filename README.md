@@ -45,7 +45,7 @@ $ cd publicutility
 
 ### Configuring the Database
 
-Go to the [/src/publicutility.api/appsettings.development.json](https://github.com/brunoalves9698/publicutility/blob/master/src/publicutility.Api/appsettings.Development.json) file and edit the 'Server' value into 'connectionString' key for the SqlServer of your machine.
+Go to the [https://github.com/brunoalves9698/PublicUtility/blob/master/src/PublicUtility.Api/appsettings.json](https://github.com/brunoalves9698/publicutility/blob/master/src/publicutility.Api/appsettings.Development.json) file and edit the 'Server' value into 'connectionString' key for the SqlServer of your machine.
 
 It should looks like this:
 
