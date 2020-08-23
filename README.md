@@ -56,7 +56,7 @@ It should looks like this:
 With all dependencies installed and the environment properly configured, you can now run the app:
 
 ```
-$ dotnet run
+$ dotnet run 
 ```
 
 ## Built With
